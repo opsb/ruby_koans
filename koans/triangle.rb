@@ -14,7 +14,9 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
-  # WRITE THIS CODE
+  { 1 => :equilateral, 2 => :isosceles, 3 => :scalene }[
+    [a, b, c].uniq.length
+  ]
 end
 
 # Error class used in part 2.  No need to change this code.
