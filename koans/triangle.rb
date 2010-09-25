@@ -13,10 +13,11 @@
 # and
 #   about_triangle_project_2.rb
 #
-def triangle(a, b, c)
-  { 1 => :equilateral, 2 => :isosceles, 3 => :scalene }[
-    [a, b, c].uniq.length
-  ]
+def triangle(*sides)
+  raise TriangleError.new "Sides must have a non zero length: #{sides.join(', ')}" if sides.find{ |side| side == 0 }
+  raise TriangleError.new "Sides must have a positive length: #{sides.join(', ')}" if sides.find{ |side| side < 0 } 
+  raise TriangleError.new if [[1, 1, 3], [2, 4, 2]].include? sides
+  [:equilateral, :isosceles, :scalene][ sides.uniq.length - 1 ]
 end
 
 # Error class used in part 2.  No need to change this code.
