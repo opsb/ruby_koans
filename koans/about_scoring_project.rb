@@ -29,8 +29,32 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 #
 # Your goal is to write the score method.
 
+class Array
+  def counts
+    groups = {}
+    each do |element|
+      groups[element] = (groups[element] || 0) + 1
+    end
+    groups
+  end 
+end
+
 def score(dice)
-  # You need to write this method
+  
+  total = 0  
+  
+  counts = Hash[(1..6).map{ |n| [n, 0] }].merge dice.counts
+  triples = counts.merge(counts){ |k,v| v / 3 }
+  remainder = counts.merge(counts){ |k,v| v % 3}
+
+  total += remainder[1] * 100
+  total += remainder[5] * 50  
+  total += triples[1] * 1000
+  total += (2..6).map{ |n| triples[n] * n * 100 }.
+                  inject(0){ |sum, n| sum += n  }
+  
+  total
+       
 end
 
 class AboutScoringProject < EdgeCase::Koan
